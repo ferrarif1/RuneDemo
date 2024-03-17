@@ -3,8 +3,7 @@ import './App.css'
 import { Button, Card, Input, Radio } from 'antd'
 import {
   encodeBitcoinVarIntTuple,
-  bb26Encode,
-  decimalToHexString,
+  bb26Encode
 } from './utils'
 
 function App() {
@@ -30,16 +29,14 @@ function App() {
   //part2
   //bb26Encode("[RUNE, 18]") = ffdbf3de59dbf3de5912
   const bb26 = bb26Encode('rune') //必须小写
-  const result2 = encodeBitcoinVarIntTuple([bb26])
-  console.log('result2 = ' + result2)
-  const decimalofrune = decimalToHexString(18)
-  console.log('bb26Encode("[rune, 18]") = ' + result2 + decimalofrune)
-
+  const result2 = encodeBitcoinVarIntTuple([bb26, 18])
+  console.log('bb26Encode[RUNE, 18] = ' + result2)
+ 
   //OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
   //part 3 拼接OP_return
   //Last result  of Protocol message
   //OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
-  
+
   /////test end
 
   const getBasicInfo = async () => {
