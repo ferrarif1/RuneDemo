@@ -19,7 +19,7 @@ function App() {
   })
   const [network, setNetwork] = useState('livenet')
 
-  /////test start
+
   // example from: https://docs.runealpha.xyz/en/issuance-example#calculate-the-first-data-in-protocol-message
   //part1
   //encodeBitcoinVarIntTuple([0, 1, 21000000]) = 0001fe406f4001
@@ -37,7 +37,7 @@ function App() {
   //Last result  of Protocol message
   //OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
 
-  /////test end
+
 
   const getBasicInfo = async () => {
     const unisat = (window as any).unisat

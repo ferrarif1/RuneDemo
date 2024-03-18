@@ -3,13 +3,16 @@
 
 // 为了发行 21000000 个符文，我们使用这个元组[0 , 1, 21000000].
 
-// 元组中的第一个整数是0  ----  发行交易的ID
+// 元组中的第一个整数是0  ----  ID=0代表发行
 
 // 元组中的第二个整数映射到1 ---- 交易的输出索引
 
 // 元组中的第三个整数是要发出的金额 ---- 21000000
 
 //以下功能代码参考https://docs.runealpha.xyz/en/issuance-example
+//  {id: 0x2aa16001b, output: 0, amount: 1000}
+//0x2aa16001b是要转的rune的id
+// expect(opReturnScript.toString('hex')).toEqual('6a0952554e455f544553540900a9cfd6ff1b866800')
 
 // import { bb26 } from 'base26';
 
@@ -109,9 +112,6 @@ export function bb26Encode(text: string): number {
 }
 
 
-export function decimalToHexString(num: number): string {
-  return num.toString(16)
-}
 
 //********Part 3 拼接OP_return***********/
 //Last result  of Protocol message
@@ -121,3 +121,4 @@ export function decimalToHexString(num: number): string {
 //但是有一个数据大小的限制，目前大约是80字节。这种交易类型的输出是不可花费的，意味着这些比特币不能被再次发送。
 
 export {}
+
