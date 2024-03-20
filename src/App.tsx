@@ -92,7 +92,11 @@ function App() {
   // };
   // let tx = wallet.signTransaction(signParams);
   console.info(runeTxParams);
-
+  //发行、转账的交易组装完成了
+  //todo：
+  //1.如何把交易给到unisat完成签名 
+  //2.查询btc、rune余额，去官网看一下，应该有apikey申请 
+  //3.psbt交易上架，购买功能
   //test end 2-core-bitcoin
 
   const getBasicInfo = async () => {
