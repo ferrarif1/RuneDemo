@@ -30,6 +30,7 @@ import {
 import { p2tr } from '../payments';
 
 import { signatureBlocksAction } from './psbtutils';
+import {Buffer} from 'buffer';
 
 export const toXOnly = (pubKey: Buffer) =>
   pubKey.length === 32 ? pubKey : pubKey.slice(1, 33);

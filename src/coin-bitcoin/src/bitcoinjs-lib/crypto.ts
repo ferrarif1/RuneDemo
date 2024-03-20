@@ -3,6 +3,7 @@
  * https://github.com/bitcoinjs/bitcoinjs-lib
  */
 import {base} from '@okxweb3/crypto-lib';
+import {Buffer} from 'buffer';
 
 export function ripemd160(buffer: Buffer): Buffer {
   return Buffer.from(base.ripemd160(buffer))

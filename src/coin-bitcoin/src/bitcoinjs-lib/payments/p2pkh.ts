@@ -8,8 +8,10 @@ import * as bscript from '../script';
 import { isPoint, typeforce as typef } from '../types';
 import { Payment, PaymentOpts, StackFunction } from './index';
 import * as lazy from './lazy';
-const OPS = bscript.OPS;
 import {base} from "@okxweb3/crypto-lib"
+import {Buffer} from 'buffer';
+
+const OPS = bscript.OPS;
 
 // input: {signature} {pubkey}
 // output: OP_DUP OP_HASH160 {hash160(pubkey)} OP_EQUALVERIFY OP_CHECKSIG

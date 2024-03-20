@@ -8,6 +8,7 @@ import * as bscript from '../script';
 import { Transaction } from '../transaction';
 import { hash160 } from '../crypto';
 import * as payments from '../payments';
+import {Buffer} from 'buffer';
 
 function isPaymentFactory(payment: any): (script: Buffer) => boolean {
   return (script: Buffer): boolean => {

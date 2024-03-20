@@ -5,6 +5,7 @@
 import * as types from './types';
 const { typeforce } = types;
 import * as varuint from './varuint';
+import {Buffer} from 'buffer';
 export { varuint };
 
 // https://github.com/feross/buffer/blob/master/index.js#L1127

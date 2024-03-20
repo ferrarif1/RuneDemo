@@ -8,6 +8,8 @@ import * as payments from './payments';
 import * as bscript from './script';
 import * as types from './types';
 import { base } from '@okxweb3/crypto-lib';
+import {Buffer} from 'buffer';
+
 const { typeforce } = types;
 
 export interface Base58CheckResult {

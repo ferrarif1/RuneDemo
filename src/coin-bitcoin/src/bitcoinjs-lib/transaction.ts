@@ -12,6 +12,7 @@ import * as bcrypto from './crypto';
 import * as bscript from './script';
 import {OPS as opcodes} from './script';
 import * as types from './types';
+import {Buffer} from 'buffer';
 
 const {typeforce} = types;
 

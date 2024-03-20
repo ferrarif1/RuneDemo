@@ -1,7 +1,7 @@
 import {DerivePathError, GetDerivedPathParam, segwitType} from "@okxweb3/coin-base";
 import {BtcWallet} from "./BtcWallet";
 import * as bitcoin from "../index"
-
+import {Buffer} from 'buffer';
 
 export const litecoin: bitcoin.Network = {
     messagePrefix: '\x19Litecoin Signed Message:\n',

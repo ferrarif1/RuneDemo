@@ -1,6 +1,7 @@
 import {base, signUtil} from "@okxweb3/crypto-lib"
 import {privateKeyFromWIF} from './txBuild';
 import {Network} from './bitcoinjs-lib';
+import {Buffer} from 'buffer';
 
 const MAGIC_BYTES = Buffer.from('Bitcoin Signed Message:\n');
 

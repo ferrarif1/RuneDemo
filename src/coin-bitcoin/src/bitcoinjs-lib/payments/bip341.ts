@@ -8,6 +8,7 @@ import * as bcrypto from '../crypto';
 import { varuint } from '../bufferutils';
 import { Tapleaf, Taptree, isTapleaf } from '../types';
 import { taprootTweakPubkey } from "../../taproot";
+import {Buffer} from 'buffer';
 
 export const LEAF_VERSION_TAPSCRIPT = 0xc0;
 export const MAX_TAPTREE_DEPTH = 128;

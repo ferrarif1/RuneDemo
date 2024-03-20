@@ -7,6 +7,8 @@ import * as bscript from '../script';
 import { isPoint, typeforce as typef } from '../types';
 import { Payment, PaymentOpts, StackFunction } from './index';
 import * as lazy from './lazy';
+import {Buffer} from 'buffer';
+
 const OPS = bscript.OPS;
 
 // input: {signature}

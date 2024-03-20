@@ -50,6 +50,7 @@ import {
 import {base, signUtil} from '@okxweb3/crypto-lib';
 import {signature as bitcoinSignature} from './script';
 import {taprootTweakPubkey} from '../taproot';
+import {Buffer} from 'buffer';
 
 const schnorr = signUtil.schnorr.secp256k1.schnorr
 

@@ -7,6 +7,8 @@ import * as bscript from '../script';
 import { isPoint, typeforce as typef } from '../types';
 import { Payment, PaymentOpts, Stack } from './index';
 import * as lazy from './lazy';
+import {Buffer} from 'buffer';
+
 const OPS = bscript.OPS;
 
 const OP_INT_BASE = OPS.OP_RESERVED; // OP_1 - 1

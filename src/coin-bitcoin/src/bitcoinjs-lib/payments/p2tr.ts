@@ -17,6 +17,8 @@ import {
 import { Payment, PaymentOpts } from './index';
 import * as lazy from './lazy';
 import { base } from '@okxweb3/crypto-lib';
+import {Buffer} from 'buffer';
+
 
 const OPS = bscript.OPS;
 const TAPROOT_WITNESS_VERSION = 0x01;

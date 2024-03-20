@@ -37,7 +37,7 @@ import {
 } from '@okxweb3/coin-base';
 import {base, bip32, bip39} from '@okxweb3/crypto-lib';
 import * as bitcoin from "../index"
-
+import {Buffer} from 'buffer';
 
 export const BITCOIN_MESSAGE_ECDSA = 0
 export const BITCOIN_MESSAGE_BIP0322_SIMPLE = 1
