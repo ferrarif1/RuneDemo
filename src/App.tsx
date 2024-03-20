@@ -99,7 +99,8 @@ function App() {
   
 
   //发行、转账的交易组装完成了
-  //todo：参考https://github.com/ferrarif1/fuckrune/blob/main/index.js
+  //todo：
+  //参考https://github.com/ferrarif1/fuckrune/blob/main/index.js https://github.com/unisat-wallet/wallet-sdk/blob/master/test/transaction/transaction.test.ts
   //1.如何把交易给到unisat完成签名 
   //2.查询btc、rune余额，去官网看一下，应该有apikey申请 
   //3.psbt交易上架，购买功能
