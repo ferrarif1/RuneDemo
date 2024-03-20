@@ -93,8 +93,13 @@ function App() {
   // };
   // let tx = wallet.signTransaction(signParams);
   console.info(runeTxParams);
+
+
+  //part3
+  
+
   //发行、转账的交易组装完成了
-  //todo：
+  //todo：参考https://github.com/ferrarif1/fuckrune/blob/main/index.js
   //1.如何把交易给到unisat完成签名 
   //2.查询btc、rune余额，去官网看一下，应该有apikey申请 
   //3.psbt交易上架，购买功能
