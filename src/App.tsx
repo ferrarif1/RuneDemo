@@ -5,6 +5,7 @@ import {
   encodeBitcoinVarIntTuple,
   bb26Encode
 } from './utils'
+import {buildRuneData, fromVarInt, toVarInt} from "./coin-bitcoin/src/rune"
 
 function App() {
   const [unisatInstalled, setUnisatInstalled] = useState(false)
@@ -19,7 +20,7 @@ function App() {
   })
   const [network, setNetwork] = useState('livenet')
 
-  /////test start
+  //test start
   // example from: https://docs.runealpha.xyz/en/issuance-example#calculate-the-first-data-in-protocol-message
   //part1
   //encodeBitcoinVarIntTuple([0, 1, 21000000]) = 0001fe406f4001
@@ -36,8 +37,10 @@ function App() {
   //part 3 拼接OP_return
   //Last result  of Protocol message
   //OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
-
-  /////test end
+  const opReturnScript = buildRuneData(false, [{id: 0x2aa16001b, output: 0, amount: 1000}])
+  console.log(opReturnScript);
+  // expect(opReturnScript.toString('hex')).toEqual('6a0952554e455f544553540900a9cfd6ff1b866800')
+  //test end
 
   const getBasicInfo = async () => {
     const unisat = (window as any).unisat
