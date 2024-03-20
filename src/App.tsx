@@ -36,6 +36,7 @@ function App() {
   console.log("bb26Encode[RUNE, 18] = " + result2);
 
   //OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
+  //"52"在十进制中等于82, 82是“R”在utf-8编码的数值，代表主网
   //part 3 拼接OP_return 这是最终数据
   //Last result  of Protocol message
   //OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912

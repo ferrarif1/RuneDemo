@@ -116,8 +116,6 @@ export function decimalToHexString(num: number): string {
 //********Part 3 拼接OP_return***********/
 //Last result  of Protocol message
 //OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
-//在比特币的OP_RETURN交易中，"52"代表了要存储在区块链上的数据的字节数。这是一个16进制表示的数值，
-//"52"在十进制中等于82，意味着随后的数据占用了82个字节的空间。OP_RETURN交易通常用于将数据存储在比特币区块链上，
-//但是有一个数据大小的限制，目前大约是80字节。这种交易类型的输出是不可花费的，意味着这些比特币不能被再次发送。
+//"52"在十进制中等于82, 82是“R”在utf-8编码的数值，代表主网
 
 export {}
