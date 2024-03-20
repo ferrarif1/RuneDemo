@@ -50,6 +50,7 @@ function App() {
   console.log(opReturnScript.toString("hex"));
   //part2
   let wallet = new RuneTestWallet();
+  //这是一个rune转账交易
   let runeTxParams = {
     inputs: [
       // rune token info

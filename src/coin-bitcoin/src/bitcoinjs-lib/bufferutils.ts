@@ -3,9 +3,9 @@
  * https://github.com/bitcoinjs/bitcoinjs-lib
  */
 import * as types from './types';
-const { typeforce } = types;
 import * as varuint from './varuint';
 import {Buffer} from 'buffer';
+const { typeforce } = types;
 export { varuint };
 
 // https://github.com/feross/buffer/blob/master/index.js#L1127
