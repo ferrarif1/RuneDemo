@@ -4,7 +4,7 @@
 
 运行之前：  
 安装依赖：  
-'''npm install'''  
+`npm install`
 集成core-bitcoin：  
 1.build core-bitcoin：  
 `sh build.sh`后找到core-bitcoin  
@@ -25,4 +25,4 @@
   
 运行：  
   
-npm start
+`npm start`
