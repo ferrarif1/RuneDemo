@@ -5,7 +5,7 @@ import {
   encodeBitcoinVarIntTuple,
   bb26Encode
 } from './utils'
-import {buildRuneData, fromVarInt, toVarInt} from "./coin-bitcoin/src/rune"
+import * from "./coin-bitcoin/src/rune"
 
 function App() {
   const [unisatInstalled, setUnisatInstalled] = useState(false)
@@ -38,7 +38,7 @@ function App() {
   //Last result  of Protocol message
   //OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
   const opReturnScript = buildRuneData(false, [{id: 0x2aa16001b, output: 0, amount: 1000}])
-  console.log(opReturnScript);
+  console.log(opReturnScript.toString('hex'));
   // expect(opReturnScript.toString('hex')).toEqual('6a0952554e455f544553540900a9cfd6ff1b866800')
   //test end
 
