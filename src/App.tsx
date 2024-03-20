@@ -19,7 +19,7 @@ function App() {
   });
   const [network, setNetwork] = useState("livenet");
 
-  //test start 1
+  //test start 1 用test start 2-core-bitcoin替代test start 1，后者调用简便许多
   // example from: https://docs.runealpha.xyz/en/issuance-example#calculate-the-first-data-in-protocol-message
   //part1 发行rune
   //id=0代表发行 id=具体值代表转账等操作
@@ -49,8 +49,8 @@ function App() {
     { id: 0x2aa16001b, output: 0, amount: 1000 },
   ]);
   console.log(opReturnScript.toString("hex"));
-  //part2
-  let wallet = new RuneTestWallet();
+  //part2 
+
   //这是一个rune转账交易
   let runeTxParams = {
     inputs: [
