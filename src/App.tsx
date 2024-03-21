@@ -88,11 +88,7 @@ function App() {
     },
   };
 
-  // let signParams: SignTxParams = {
-  //   privateKey: "cNtoPYke9Dhqoa463AujyLzeas8pa6S15BG1xDSRnVmcwbS9w7rS",
-  //   data: runeTxParams,
-  // };
-  // let tx = wallet.signTransaction(signParams);
+
   console.info(runeTxParams);
 
   //part3
@@ -470,15 +466,16 @@ function SendBitcoin() {
               });
             };
 
-            020000000001019e50873d71b2feb5dd614af5a63f275e5a038d74b3336076c591a846c0cc0c390000000000ffffffff02e803000000000000160014da7fda4bd80b59b83963e7da8649963f8834fc699c5b0300000000002251204575ded84de987c5daa2deb413e991de461036a56e890e3029ad6b67b92d219e014049f1e9f6d1220358a9613e88dcc4ed1efed90dcda4f49a2381acdc1eed6a96028ea718b472a3f5e155a8e2f67cbe12d13a88810f00a1c28cd687a47eae5f129700000000
+            0200000000010188dcafc054a15e03b376f2e4e9420cd46378d3035ac6e333ad53a63960dcf4810200000000ffffffff034d00000000000000160014da7fda4bd80b59b83963e7da8649963f8834fc690000000000000000146a12520001fe406f4001ffdbf3de59dbf3de5912b2530300000000002251204575ded84de987c5daa2deb413e991de461036a56e890e3029ad6b67b92d219e014066e3233ff668fd0778e7d8425751001e6e8950b6b540b603f8440a798ffd638993310c82f80aea6fe6cb6c01241095ce6c88fdbab37f8ad8853d5334f0f573d400000000
 
             */
            //OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
-            const memo = "OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912";
+            const opscript = "520001fe406f4001ffdbf3de59dbf3de5912";
+            const options = {memo:opscript};
             const txid = await (window as any).unisat.sendBitcoin(
               toAddress,
               satoshis,
-              memo
+              options
             );
             setTxid(txid);
           } catch (e) {
