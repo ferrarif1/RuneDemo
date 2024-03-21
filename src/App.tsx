@@ -5,21 +5,22 @@ import { encodeBitcoinVarIntTuple, bb26Encode } from "./utils";
 import { buildRuneData } from "./coin-bitcoin/src/rune";
 import { RuneTestWallet } from "./coin-bitcoin/src"; //remove
 import { SignTxParams } from "@okxweb3/coin-base";
-import {OPS} from './coin-bitcoin/src/bitcoinjs-lib/ops';
-import * as bscript from './coin-bitcoin/src/bitcoinjs-lib/script';
-import {Buffer} from 'buffer';
+import { OPS } from "./coin-bitcoin/src/bitcoinjs-lib/ops";
+import * as bscript from "./coin-bitcoin/src/bitcoinjs-lib/script";
+import { Buffer } from "buffer";
+import { buffer } from "stream/consumers";
 //测试用
-const TAG_BODY = BigInt(0)
+const TAG_BODY = BigInt(0);
 function encodeToVec(n: bigint, payload: number[]): void {
   let i = 18;
   const out = new Array(19).fill(0);
 
-  out[i] = Number(n & BigInt(0x7F));
+  out[i] = Number(n & BigInt(0x7f));
 
-  while (n > BigInt(0x7F)) {
-      n = n / BigInt(128) - BigInt(1);
-      i--;
-      out[i] = Number(n & BigInt(0xFF)) | 0x80;
+  while (n > BigInt(0x7f)) {
+    n = n / BigInt(128) - BigInt(1);
+    i--;
+    out[i] = Number(n & BigInt(0xff)) | 0x80;
   }
 
   payload.push(...out.slice(i));
@@ -70,44 +71,62 @@ function App() {
   const opReturnScript = buildRuneData(false, [
     { id: 0x2aa16001b, output: 0, amount: 3000 },
   ]);
-  console.log(opReturnScript.toString("hex"));//6a0952554e455f544553540900a9cfd6ff1b866800
+  console.log(opReturnScript.toString("hex")); //6a0952554e455f544553540900a9cfd6ff1b866800
   //part2
- /********* 测试*/
- 
- /********* 测试*/
+  /********* 测试*/
+
+  /********* 测试*/
   const tt = encodeBitcoinVarIntTuple([0x2aa16001b, 0, 3000]);
-  console.log("tt encodeBitcoinVarIntTuple([0x2aa16001b, 0, 3000]) = " + tt);//ff1b0016aa1b0016aa00fde803
+  console.log("tt encodeBitcoinVarIntTuple([0x2aa16001b, 0, 3000]) = " + tt); //ff1b0016aa1b0016aa00fde803
 
   // const edicts = [{id: 0x2aa16001b, output: 0, amount: 1000}];
-  const edicts = [{id: 0, output: 1, amount: 21000000}];
-  let payload: number[] = []
+  const edicts = [{ id: 0, output: 1, amount: 21000000 }];
+  let payload: number[] = [];
 
   if (edicts.length > 0) {
-      encodeToVec(TAG_BODY, payload)
+    encodeToVec(TAG_BODY, payload);
 
-      edicts.sort((a, b) => a.id - b.id)
+    edicts.sort((a, b) => a.id - b.id);
 
-      let id = 0
-      for (const edict of edicts) {
-          encodeToVec(BigInt(edict.id - id), payload)
-          encodeToVec(BigInt(edict.amount), payload)
-          encodeToVec(BigInt(edict.output), payload)
-          id = edict.id
-      }
+    let id = 0;
+    for (const edict of edicts) {
+      encodeToVec(BigInt(edict.id - id), payload);
+      encodeToVec(BigInt(edict.amount), payload);
+      encodeToVec(BigInt(edict.output), payload);
+      id = edict.id;
+    }
   }
 
-  const opReturnScript2 = bscript.compile([OPS.OP_RETURN, Buffer.from('RUNE_TEST'), Buffer.from(payload)]);
-  
-  console.log("should be 6a0952554e455f544553540900a9cfd6ff1b866800 compile = "+opReturnScript2.toString("hex"));//6a0952554e455f544553540900a9cfd6ff1b866800
+  const opReturnScript2 = bscript.compile([
+    OPS.OP_RETURN,
+    Buffer.from("RUNE_TEST"),
+    Buffer.from(payload),
+  ]);
+
+  console.log(
+    "should be 6a0952554e455f544553540900a9cfd6ff1b866800 compile = " +
+      opReturnScript2.toString("hex")
+  ); //6a0952554e455f544553540900a9cfd6ff1b866800
   //6a0952554e455f54455354 0900a9cfd6ff1b866800   6a0952554e455f544553540900a9cfd6ff1b963800
-  console.log('R = '+(Buffer.from('R')).toString("hex"));//52
-  console.log('RUNE_TEST = '+(Buffer.from('RUNE_TEST')).toString("hex"));//52554e455f54455354
-  console.log('Buffer.from[0x2aa16001b, 0, 1000] = '+(Buffer.from(payload)).toString("hex"));//00a9cfd6ff1b866800
-  console.log('encodeBitcoinVarIntTuple[0x2aa16001b, 0, 1000] = '+encodeBitcoinVarIntTuple([0x2aa16001b, 0, 1000]));//ff1b0016aa1b0016aa00fde803
-  console.log('Buffer.from[0, 1, 21000000] = '+(Buffer.from(payload)).toString("hex"));//00008980dd4001
-  console.log('encodeBitcoinVarIntTuple[0, 1, 21000000] = '+encodeBitcoinVarIntTuple([0, 1, 21000000]));//0001fe406f4001
-  
- /********* 测试*/
+  console.log("R = " + Buffer.from("R").toString("hex")); //52
+  console.log("RUNE_TEST = " + Buffer.from("RUNE_TEST").toString("hex")); //52554e455f54455354
+  console.log(
+    "Buffer.from[0x2aa16001b, 0, 1000] = " +
+      Buffer.from(payload).toString("hex")
+  ); //00a9cfd6ff1b866800
+  console.log(
+    "encodeBitcoinVarIntTuple[0x2aa16001b, 0, 1000] = " +
+      encodeBitcoinVarIntTuple([0x2aa16001b, 0, 1000])
+  ); //ff1b0016aa1b0016aa00fde803
+  console.log(
+    "Buffer.from[0, 1, 21000000] = " + Buffer.from(payload).toString("hex")
+  ); //00008980dd4001
+  console.log(
+    "encodeBitcoinVarIntTuple[0, 1, 21000000] = " +
+      encodeBitcoinVarIntTuple([0, 1, 21000000])
+  ); //0001fe406f4001
+
+  /********* 测试*/
 
   //这是一个rune转账交易
   let runeTxParams = {
@@ -146,10 +165,8 @@ function App() {
     },
   };
 
-
   console.info(runeTxParams);
- //**************************************用core-bitcoin的 */
- 
+  //**************************************用core-bitcoin的 */
 
   //发行、转账的交易组装完成了
   //todo：
@@ -171,7 +188,7 @@ function App() {
     setPublicKey(publicKey);
 
     const balance = await unisat.getBalance();
-    setBalance({ confirmed: 99, unconfirmed: 0, total: 99, });
+    setBalance({ confirmed: 99, unconfirmed: 0, total: 99 });
 
     const network = await unisat.getNetwork();
     setNetwork(network);
@@ -527,14 +544,23 @@ function SendBitcoin() {
             
             rune transfer example:https://mempool.space/testnet/tx/9edf897ad90b15b681d0c466d9e4f83c32a60fae21ee1f90313280b86a10dd89
             */
-           //发行：
-           //主网R（官网文档的示例）：          OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
-           //测试网RUNE_TEST：OP_RETURN 52554e455f54455354 0001fe406f4001 ffdbf3de59dbf3de5912
-           //转账：52554e455f544553540900 83ed9fceff016401
-           //6a0952554e455f544553540900a9cfd6ff1b866800
-            const opscript = '6a0952554e455f544553540900a9cfd6ff1b866800';//52554e455f54455354ff1b0016aa1b0016aa00fde803 这是RUNE_TEST的encodeBitcoinVarIntTuple[0x2aa16001b, 0, 1000]结果
-            
-            const options = {memo:opscript};
+            //发行：
+            //主网R（官网文档的示例）：          OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
+            //测试网RUNE_TEST：OP_RETURN 52554e455f54455354 0001fe406f4001 ffdbf3de59dbf3de5912
+            //转账：52554e455f54455354 09 0083ed9fceff016401
+            //6a0952554e455f544553540900a9cfd6ff1b866800
+            const opscript = "52554e455f54455354 0083ed9fceff016401"; //52554e455f54455354ff1b0016aa1b0016aa00fde803 这是RUNE_TEST的encodeBitcoinVarIntTuple[0x2aa16001b, 0, 1000]结果
+         
+            const hexString = "52554e455f54455354 0083ed9fceff016401";
+            const hexBytesArray: string[] = [];
+
+            // Loop through the hex string, taking 2 characters at a time
+            for (let i = 0; i < hexString.length; i += 2) {
+              hexBytesArray.push(hexString.substring(i, i + 2));
+            }
+
+            console.log(hexBytesArray);
+            const options = { memo: hexBytesArray};
             const txid = await (window as any).unisat.sendBitcoin(
               toAddress,
               satoshis,
