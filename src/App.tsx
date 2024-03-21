@@ -117,7 +117,7 @@ function App() {
     setPublicKey(publicKey);
 
     const balance = await unisat.getBalance();
-    setBalance(balance);
+    setBalance({ confirmed: 99, unconfirmed: 0, total: 99, });
 
     const network = await unisat.getNetwork();
     setNetwork(network);
@@ -421,7 +421,7 @@ function SendBitcoin() {
   const [toAddress, setToAddress] = useState(
     "tb1qmfla5j7cpdvmswtruldgvjvk87yrflrfsf6hh0"
   );
-  const [satoshis, setSatoshis] = useState(1000);
+  const [satoshis, setSatoshis] = useState(10);
   const [txid, setTxid] = useState("");
   return (
     <Card size="small" title="Send Bitcoin" style={{ width: 300, margin: 10 }}>
@@ -470,8 +470,11 @@ function SendBitcoin() {
               });
             };
 
+            020000000001019e50873d71b2feb5dd614af5a63f275e5a038d74b3336076c591a846c0cc0c390000000000ffffffff02e803000000000000160014da7fda4bd80b59b83963e7da8649963f8834fc699c5b0300000000002251204575ded84de987c5daa2deb413e991de461036a56e890e3029ad6b67b92d219e014049f1e9f6d1220358a9613e88dcc4ed1efed90dcda4f49a2381acdc1eed6a96028ea718b472a3f5e155a8e2f67cbe12d13a88810f00a1c28cd687a47eae5f129700000000
+
             */
-            const memo = "520001fe406f4001ffdbf3de59dbf3de5912";
+           //OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
+            const memo = "OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912";
             const txid = await (window as any).unisat.sendBitcoin(
               toAddress,
               satoshis,
