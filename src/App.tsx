@@ -5,6 +5,26 @@ import { encodeBitcoinVarIntTuple, bb26Encode } from "./utils";
 import { buildRuneData } from "./coin-bitcoin/src/rune";
 import { RuneTestWallet } from "./coin-bitcoin/src"; //remove
 import { SignTxParams } from "@okxweb3/coin-base";
+import {OPS} from './coin-bitcoin/src/bitcoinjs-lib/ops';
+import * as bscript from './coin-bitcoin/src/bitcoinjs-lib/script';
+import {Buffer} from 'buffer';
+//测试用
+const TAG_BODY = BigInt(0)
+function encodeToVec(n: bigint, payload: number[]): void {
+  let i = 18;
+  const out = new Array(19).fill(0);
+
+  out[i] = Number(n & BigInt(0x7F));
+
+  while (n > BigInt(0x7F)) {
+      n = n / BigInt(128) - BigInt(1);
+      i--;
+      out[i] = Number(n & BigInt(0xFF)) | 0x80;
+  }
+
+  payload.push(...out.slice(i));
+}
+//测试用
 
 function App() {
   const [unisatInstalled, setUnisatInstalled] = useState(false);
@@ -20,6 +40,7 @@ function App() {
   const [network, setNetwork] = useState("livenet");
 
   //test start 1 用test start 2-core-bitcoin替代test start 1，后者调用简便许多
+  //**************************************用utils的 */
   // example from: https://docs.runealpha.xyz/en/issuance-example#calculate-the-first-data-in-protocol-message
   //part1 发行rune
   //id=0代表发行 id=具体值代表转账等操作
@@ -40,16 +61,53 @@ function App() {
   //part 3 拼接OP_return 这是最终数据
   //Last result  of Protocol message
   //OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
-
+  //**************************************用utils的 */
   //test end 1
 
+  //**************************************用core-bitcoin的 */
   //test start 2-core-bitcoin
   //part1
   const opReturnScript = buildRuneData(false, [
-    { id: 0x2aa16001b, output: 0, amount: 1000 },
+    { id: 0x2aa16001b, output: 0, amount: 3000 },
   ]);
-  console.log(opReturnScript.toString("hex"));
+  console.log(opReturnScript.toString("hex"));//6a0952554e455f544553540900a9cfd6ff1b866800
   //part2
+ /********* 测试*/
+ 
+ /********* 测试*/
+  const tt = encodeBitcoinVarIntTuple([0x2aa16001b, 0, 3000]);
+  console.log("tt encodeBitcoinVarIntTuple([0x2aa16001b, 0, 3000]) = " + tt);//ff1b0016aa1b0016aa00fde803
+
+  // const edicts = [{id: 0x2aa16001b, output: 0, amount: 1000}];
+  const edicts = [{id: 0, output: 1, amount: 21000000}];
+  let payload: number[] = []
+
+  if (edicts.length > 0) {
+      encodeToVec(TAG_BODY, payload)
+
+      edicts.sort((a, b) => a.id - b.id)
+
+      let id = 0
+      for (const edict of edicts) {
+          encodeToVec(BigInt(edict.id - id), payload)
+          encodeToVec(BigInt(edict.amount), payload)
+          encodeToVec(BigInt(edict.output), payload)
+          id = edict.id
+      }
+  }
+
+  const opReturnScript2 = bscript.compile([OPS.OP_RETURN, Buffer.from('RUNE_TEST'), Buffer.from(payload)]);
+  
+  console.log("should be 6a0952554e455f544553540900a9cfd6ff1b866800 compile = "+opReturnScript2.toString("hex"));//6a0952554e455f544553540900a9cfd6ff1b866800
+  //6a0952554e455f54455354 0900a9cfd6ff1b866800   6a0952554e455f544553540900a9cfd6ff1b963800
+  console.log('R = '+(Buffer.from('R')).toString("hex"));//52
+  console.log('RUNE_TEST = '+(Buffer.from('RUNE_TEST')).toString("hex"));//52554e455f54455354
+  console.log('Buffer.from[0x2aa16001b, 0, 1000] = '+(Buffer.from(payload)).toString("hex"));//00a9cfd6ff1b866800
+  console.log('encodeBitcoinVarIntTuple[0x2aa16001b, 0, 1000] = '+encodeBitcoinVarIntTuple([0x2aa16001b, 0, 1000]));//ff1b0016aa1b0016aa00fde803
+  console.log('Buffer.from[0, 1, 21000000] = '+(Buffer.from(payload)).toString("hex"));//00008980dd4001
+  console.log('encodeBitcoinVarIntTuple[0, 1, 21000000] = '+encodeBitcoinVarIntTuple([0, 1, 21000000]));//0001fe406f4001
+  
+ /********* 测试*/
 
   //这是一个rune转账交易
   let runeTxParams = {
@@ -90,8 +148,8 @@ function App() {
 
 
   console.info(runeTxParams);
-
-  //part3
+ //**************************************用core-bitcoin的 */
+ 
 
   //发行、转账的交易组装完成了
   //todo：
@@ -466,11 +524,16 @@ function SendBitcoin() {
               });
             };
 
-            0200000000010188dcafc054a15e03b376f2e4e9420cd46378d3035ac6e333ad53a63960dcf4810200000000ffffffff034d00000000000000160014da7fda4bd80b59b83963e7da8649963f8834fc690000000000000000146a12520001fe406f4001ffdbf3de59dbf3de5912b2530300000000002251204575ded84de987c5daa2deb413e991de461036a56e890e3029ad6b67b92d219e014066e3233ff668fd0778e7d8425751001e6e8950b6b540b603f8440a798ffd638993310c82f80aea6fe6cb6c01241095ce6c88fdbab37f8ad8853d5334f0f573d400000000
-
+            
+            rune transfer example:https://mempool.space/testnet/tx/9edf897ad90b15b681d0c466d9e4f83c32a60fae21ee1f90313280b86a10dd89
             */
-           //OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
-            const opscript = "520001fe406f4001ffdbf3de59dbf3de5912";
+           //发行：
+           //主网R（官网文档的示例）：          OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
+           //测试网RUNE_TEST：OP_RETURN 52554e455f54455354 0001fe406f4001 ffdbf3de59dbf3de5912
+           //转账：52554e455f544553540900 83ed9fceff016401
+           //6a0952554e455f544553540900a9cfd6ff1b866800
+            const opscript = '6a0952554e455f544553540900a9cfd6ff1b866800';//52554e455f54455354ff1b0016aa1b0016aa00fde803 这是RUNE_TEST的encodeBitcoinVarIntTuple[0x2aa16001b, 0, 1000]结果
+            
             const options = {memo:opscript};
             const txid = await (window as any).unisat.sendBitcoin(
               toAddress,
