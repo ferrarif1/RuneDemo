@@ -49,7 +49,7 @@ function App() {
     { id: 0x2aa16001b, output: 0, amount: 1000 },
   ]);
   console.log(opReturnScript.toString("hex"));
-  //part2 
+  //part2
 
   //这是一个rune转账交易
   let runeTxParams = {
@@ -95,16 +95,17 @@ function App() {
   // let tx = wallet.signTransaction(signParams);
   console.info(runeTxParams);
 
-
   //part3
-  
 
   //发行、转账的交易组装完成了
   //todo：
-  //参考https://github.com/ferrarif1/fuckrune/blob/main/index.js https://github.com/unisat-wallet/wallet-sdk/blob/master/test/transaction/transaction.test.ts
-  //1.如何把交易给到unisat完成签名 
-  //2.查询btc、rune余额，去官网看一下，应该有apikey申请 
+  //参考https://github.com/ferrarif1/fuckrune/blob/main/index.js
+  //https://github.com/unisat-wallet/wallet-sdk/blob/master/test/transaction/transaction.test.ts
+  //btc opreturn交易：https://segmentfault.com/a/1190000019291453
+  //1.如何把交易给到unisat完成签名
+  //2.查询btc、rune余额，去官网看一下，应该有apikey申请
   //3.psbt交易上架，购买功能
+
   //test end 2-core-bitcoin
 
   const getBasicInfo = async () => {
@@ -451,9 +452,30 @@ function SendBitcoin() {
         style={{ marginTop: 10 }}
         onClick={async () => {
           try {
+            /*
+            # UniSat Wallet Release Notes
+            ## v1.2.8
+            The unisat.sendBitcoin method has added a memo parameter, increasing OP_RETURN output when sending btc.
+            https://github.com/unisat-wallet/extension/blob/ea174e81ff8b13c0bd4a4b4dc1baeb48b08d6c1b/src/content-script/pageProvider/index.ts#L237
+            sendBitcoin = async (toAddress: string, satoshis: number, options?: { feeRate: number; memo?: string }) => {
+              return this._request({
+                method: 'sendBitcoin',
+                params: {
+                  toAddress,
+                  satoshis,
+                  feeRate: options?.feeRate,
+                  memo: options?.memo,
+                  type: TxType.SEND_BITCOIN
+                }
+              });
+            };
+
+            */
+            const memo = "520001fe406f4001ffdbf3de59dbf3de5912";
             const txid = await (window as any).unisat.sendBitcoin(
               toAddress,
-              satoshis
+              satoshis,
+              memo
             );
             setTxid(txid);
           } catch (e) {
