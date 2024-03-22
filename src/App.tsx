@@ -9,6 +9,8 @@ import { OPS } from "./coin-bitcoin/src/bitcoinjs-lib/ops";
 import * as bscript from "./coin-bitcoin/src/bitcoinjs-lib/script";
 import { Buffer } from "buffer";
 import { buffer } from "stream/consumers";
+
+import * as btc from 'bitcore-lib';
 //测试用
 const TAG_BODY = BigInt(0);
 function encodeToVec(n: bigint, payload: number[]): void {
@@ -43,6 +45,7 @@ function App() {
   //**************************************用utils的 👇 用test start 2-core-bitcoin替代test start 1，后者调用简便许多*/
   // example from: https://docs.runealpha.xyz/en/issuance-example#calculate-the-first-data-in-protocol-message
   //part1 发行rune
+  //发行数据示例:OP_RETURN 1 0x52 6 0x0001e0f40614 4 0xce2a2600
   //id=0代表发行 id=具体值代表转账等操作
   //1代表第一个output输出
   //21000000代表总量
@@ -63,20 +66,18 @@ function App() {
  
 
   //**************************************用core-bitcoin的 👇*/
-  //part1
+
   const opReturnScript = buildRuneData(false, [
     { id: 0x2aa16001b, output: 0, amount: 3000 },
   ]);
-  console.log(opReturnScript.toString("hex")); //6a0952554e455f544553540900a9cfd6ff1b866800
-  //part2
-  /********* 测试*/
-
-  /********* 测试*/
-  const tt = encodeBitcoinVarIntTuple([0x2aa16001b, 0, 3000]);
-  console.log("tt encodeBitcoinVarIntTuple([0x2aa16001b, 0, 3000]) = " + tt); //ff1b0016aa1b0016aa00fde803
-
-  // const edicts = [{id: 0x2aa16001b, output: 0, amount: 1000}];
-  const edicts = [{ id: 0, output: 1, amount: 21000000 }];
+  console.log(opReturnScript.toString("hex")); //6a0952554e455f544553540900a9cfd6ff1b866800 这个直接作为op_return那笔输出的script
+  
+  const tt = encodeBitcoinVarIntTuple([0x2aa16001b, 0, 1000]);
+  console.log("tt encodeBitcoinVarIntTuple([0x2aa16001b, 0, 1000]) = " + tt); //ff1b0016aa1b0016aa00fde803
+  
+  
+  const edicts = [{id: 0x2aa16001b, output: 0, amount: 1000}];
+  // const edicts = [{ id: 0, output: 1, amount: 21000000 }];
   let payload: number[] = [];
 
   if (edicts.length > 0) {
@@ -94,11 +95,10 @@ function App() {
   }
 
   const oporiginal = [
-    (OPS.OP_RETURN),
     (Buffer.from("RUNE_TEST")).toString("hex"),
     (Buffer.from(payload)).toString("hex"),
   ];
-  console.log("oporiginal = "+oporiginal) //oporiginal = 106,52554e455f54455354,00008980dd4001
+  console.log("oporiginal = "+oporiginal) //oporiginal = 52554e455f54455354,00008980dd4001
 
   const opReturnScript2 = bscript.compile([
     OPS.OP_RETURN,
@@ -110,7 +110,7 @@ function App() {
     "should be 6a0952554e455f544553540900a9cfd6ff1b866800 compile = " +
       opReturnScript2.toString("hex")
   ); //6a0952554e455f544553540900a9cfd6ff1b866800
-  //6a0952554e455f54455354 0900a9cfd6ff1b866800   6a0952554e455f544553540900a9cfd6ff1b963800
+
   console.log("R = " + Buffer.from("R").toString("hex")); //52
   console.log("RUNE_TEST = " + Buffer.from("RUNE_TEST").toString("hex")); //52554e455f54455354
   
@@ -155,6 +155,7 @@ function App() {
   };
 
   console.info(runeTxParams);
+
   //**************************************用core-bitcoin的 👆*/
 
 
@@ -540,17 +541,9 @@ function SendBitcoin() {
             //转账：52554e455f54455354 09 0083ed9fceff016401
             //6a0952554e455f544553540900a9cfd6ff1b866800
             const opscript = "52554e455f54455354 0083ed9fceff016401"; //52554e455f54455354ff1b0016aa1b0016aa00fde803 这是RUNE_TEST的encodeBitcoinVarIntTuple[0x2aa16001b, 0, 1000]结果
-         
-            const hexString = "52554e455f544553540900a9cfd6ff1b866800";
-            const hexBytesArray: string[] = [];
-
-            // Loop through the hex string, taking 2 characters at a time
-            for (let i = 0; i < hexString.length; i += 2) {
-              hexBytesArray.push(hexString.substring(i, i + 2));
-            }
-
-            console.log(hexBytesArray);
-            const options = { memo: hexBytesArray};
+        
+            const options = { memo: "52554e455f544553540083ed9fceff016401"};
+           //看一下这个：https://github.com/search?q=org%3Aunisat-wallet%20sendBitcoin&type=code
             const txid = await (window as any).unisat.sendBitcoin(
               toAddress,
               satoshis,
