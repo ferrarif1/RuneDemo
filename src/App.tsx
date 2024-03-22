@@ -40,8 +40,7 @@ function App() {
   });
   const [network, setNetwork] = useState("livenet");
 
-  //test start 1 用test start 2-core-bitcoin替代test start 1，后者调用简便许多
-  //**************************************用utils的 */
+  //**************************************用utils的 👇 用test start 2-core-bitcoin替代test start 1，后者调用简便许多*/
   // example from: https://docs.runealpha.xyz/en/issuance-example#calculate-the-first-data-in-protocol-message
   //part1 发行rune
   //id=0代表发行 id=具体值代表转账等操作
@@ -59,14 +58,11 @@ function App() {
 
   //OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
   //"52"在十进制中等于82, 82是“R”在utf-8编码的数值，代表主网
-  //part 3 拼接OP_return 这是最终数据
-  //Last result  of Protocol message
   //OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
-  //**************************************用utils的 */
-  //test end 1
+  //**************************************用utils的 👆*/
+ 
 
-  //**************************************用core-bitcoin的 */
-  //test start 2-core-bitcoin
+  //**************************************用core-bitcoin的 👇*/
   //part1
   const opReturnScript = buildRuneData(false, [
     { id: 0x2aa16001b, output: 0, amount: 3000 },
@@ -97,6 +93,13 @@ function App() {
     }
   }
 
+  const oporiginal = [
+    (OPS.OP_RETURN),
+    (Buffer.from("RUNE_TEST")).toString("hex"),
+    (Buffer.from(payload)).toString("hex"),
+  ];
+  console.log("oporiginal = "+oporiginal) //oporiginal = 106,52554e455f54455354,00008980dd4001
+
   const opReturnScript2 = bscript.compile([
     OPS.OP_RETURN,
     Buffer.from("RUNE_TEST"),
@@ -110,21 +113,7 @@ function App() {
   //6a0952554e455f54455354 0900a9cfd6ff1b866800   6a0952554e455f544553540900a9cfd6ff1b963800
   console.log("R = " + Buffer.from("R").toString("hex")); //52
   console.log("RUNE_TEST = " + Buffer.from("RUNE_TEST").toString("hex")); //52554e455f54455354
-  console.log(
-    "Buffer.from[0x2aa16001b, 0, 1000] = " +
-      Buffer.from(payload).toString("hex")
-  ); //00a9cfd6ff1b866800
-  console.log(
-    "encodeBitcoinVarIntTuple[0x2aa16001b, 0, 1000] = " +
-      encodeBitcoinVarIntTuple([0x2aa16001b, 0, 1000])
-  ); //ff1b0016aa1b0016aa00fde803
-  console.log(
-    "Buffer.from[0, 1, 21000000] = " + Buffer.from(payload).toString("hex")
-  ); //00008980dd4001
-  console.log(
-    "encodeBitcoinVarIntTuple[0, 1, 21000000] = " +
-      encodeBitcoinVarIntTuple([0, 1, 21000000])
-  ); //0001fe406f4001
+  
 
   /********* 测试*/
 
@@ -166,12 +155,13 @@ function App() {
   };
 
   console.info(runeTxParams);
-  //**************************************用core-bitcoin的 */
+  //**************************************用core-bitcoin的 👆*/
 
-  //发行、转账的交易组装完成了
+
   //todo：
   //参考https://github.com/ferrarif1/fuckrune/blob/main/index.js
   //https://github.com/unisat-wallet/wallet-sdk/blob/master/test/transaction/transaction.test.ts
+  //unisat文档https://github.com/unisat-wallet/unisat-docs/blob/ca6837a6e6fa7fa9451f53d1ac00191a10b088bb/docs/guide/unisat-api.md?plain=1#L264
   //btc opreturn交易：https://segmentfault.com/a/1190000019291453
   //1.如何把交易给到unisat完成签名
   //2.查询btc、rune余额，去官网看一下，应该有apikey申请
@@ -551,7 +541,7 @@ function SendBitcoin() {
             //6a0952554e455f544553540900a9cfd6ff1b866800
             const opscript = "52554e455f54455354 0083ed9fceff016401"; //52554e455f54455354ff1b0016aa1b0016aa00fde803 这是RUNE_TEST的encodeBitcoinVarIntTuple[0x2aa16001b, 0, 1000]结果
          
-            const hexString = "52554e455f54455354 0083ed9fceff016401";
+            const hexString = "52554e455f544553540900a9cfd6ff1b866800";
             const hexBytesArray: string[] = [];
 
             // Loop through the hex string, taking 2 characters at a time
