@@ -35,6 +35,7 @@
     "@okxweb3/coin-base": "^1.0.5",
     "@okxweb3/crypto-lib": "^1.0.1",
     "big-integer": "1.6.36",
-    "buffer": "^6.0.3"
+    "buffer": "^6.0.3",
+    "stream": "^0.0.2"
   }
 }
