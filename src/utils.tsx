@@ -12,7 +12,7 @@
 //以下功能代码参考https://docs.runealpha.xyz/en/issuance-example
 
 // import { bb26 } from 'base26';
-
+// detail rose mosquito army route blind fog error danger organ sense flower
 //********Part 1 比特币风格编码***********/
 
 //示例：
