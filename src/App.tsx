@@ -42,7 +42,7 @@ function App() {
   });
   const [network, setNetwork] = useState("livenet");
 
-  //**************************************用utils的 👇 用test start 2-core-bitcoin替代test start 1，后者调用简便许多*/
+  //**************************************用utils的 👇*/
   // example from: https://docs.runealpha.xyz/en/issuance-example#calculate-the-first-data-in-protocol-message
   //part1 发行rune
   //发行数据示例:OP_RETURN 1 0x52 6 0x0001e0f40614 4 0xce2a2600
@@ -114,7 +114,7 @@ function App() {
   console.log("R = " + Buffer.from("R").toString("hex")); //52
   console.log("RUNE_TEST = " + Buffer.from("RUNE_TEST").toString("hex")); //52554e455f54455354
   
-
+  
   /********* 测试*/
 
   //这是一个rune转账交易
@@ -538,9 +538,10 @@ function SendBitcoin() {
             //发行：
             //主网R（官网文档的示例）：          OP_RETURN 52 0001fe406f4001 ffdbf3de59dbf3de5912
             //测试网RUNE_TEST：OP_RETURN 52554e455f54455354 0001fe406f4001 ffdbf3de59dbf3de5912
-            //转账：52554e455f54455354 09 0083ed9fceff016401
-            //6a0952554e455f544553540900a9cfd6ff1b866800
-            const opscript = "52554e455f54455354 0083ed9fceff016401"; //52554e455f54455354ff1b0016aa1b0016aa00fde803 这是RUNE_TEST的encodeBitcoinVarIntTuple[0x2aa16001b, 0, 1000]结果
+            //转账
+            //测试网：52554e455f54455354 0083ed9fceff016401
+            //6a 09 52554e455f54455354 09 00a9cfd6ff1b866800
+            //52554e455f54455354ff1b0016aa1b0016aa00fde803 这是RUNE_TEST的encodeBitcoinVarIntTuple[0x2aa16001b, 0, 1000]结果
         
             const options = { memos: ["52554e455f54455354","0083ed9fceff016401"]};
            //看一下这个：https://github.com/search?q=org%3Aunisat-wallet%20sendBitcoin&type=code
