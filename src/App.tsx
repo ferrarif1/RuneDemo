@@ -543,7 +543,8 @@ function SendBitcoin() {
             //6a 09 52554e455f54455354 09 00a9cfd6ff1b866800
             //52554e455f54455354ff1b0016aa1b0016aa00fde803 这是RUNE_TEST的encodeBitcoinVarIntTuple[0x2aa16001b, 0, 1000]结果
         
-            const options = { memos: ["52554e455f54455354","0083ed9fceff016401"]};
+            const options = { memos:["52554e455f54455354","0083ed9fceff016401"]};
+            console.info(options);
            //看一下这个：https://github.com/search?q=org%3Aunisat-wallet%20sendBitcoin&type=code
             const txid = await (window as any).unisat.sendBitcoin(
               toAddress,
