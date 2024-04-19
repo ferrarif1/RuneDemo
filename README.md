@@ -58,3 +58,8 @@ import { Buffer } from 'buffer';
 ```bash
 npm start
 ```
+
+## 注意
+unisat最新版本开始支持rune v1.3.0：  
+https://github.com/unisat-wallet/extension/releases    
+
