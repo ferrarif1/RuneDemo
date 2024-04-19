@@ -1,27 +1,27 @@
 
 ## 准备环境
 
-在开始之前，您需要安装项目依赖：
+在开始之前，需要安装项目依赖：
 
 ```bash
 npm install
 ```
 
-## 集成 Core-Bitcoin
+## 集成okx的Core-Bitcoin
 
 ### 1. 构建 Core-Bitcoin
 
-首先，构建 Core-Bitcoin：
+首先下载代码https://github.com/okx/js-wallet-sdk，看Build Locally部分在本地构建 Core-Bitcoin：
 
 ```bash
 sh build.sh
 ```
 
-完成后，您会在项目目录中找到编译后的 Core-Bitcoin。
+完成后，会在项目目录中找到编译后的 Core-Bitcoin。
 
 ### 2. 集成到项目中
 
-将编译后的 Core-Bitcoin 放到 `src` 目录下，并使用以下命令将其添加到您的项目中：
+将编译后的 Core-Bitcoin 放到 `src` 目录下，并使用以下命令将其添加到的项目中：
 
 ```bash
 npm install {core-bitcoin的路径}
@@ -53,7 +53,7 @@ import { Buffer } from 'buffer';
 
 ## 运行项目
 
-一切就绪后，您可以使用以下命令来启动项目：
+一切就绪后，可以使用以下命令来启动项目：
 
 ```bash
 npm start
