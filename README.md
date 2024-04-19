@@ -9,8 +9,6 @@ npm install
 
 ## 集成 Core-Bitcoin
 
-为了集成 Core-Bitcoin，请按照以下步骤操作：
-
 ### 1. 构建 Core-Bitcoin
 
 首先，构建 Core-Bitcoin：
