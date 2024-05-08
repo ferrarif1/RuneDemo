@@ -7,7 +7,7 @@
 npm install
 ```
 
-## 集成okx的Core-Bitcoin
+## 集成okx的Core-Bitcoin(这步不用实际操作，直接下载代码就好，已经弄好了)
 
 ### 1. 构建 Core-Bitcoin
 
